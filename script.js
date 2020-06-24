@@ -2,6 +2,8 @@ const APIKey = "ce8855f0190f67331d0da235639fae92";
 let city = ""
 let cities = [];
 let m = moment();
+let lat = ""
+let lon = ""
 // build UV index queryURL with coord from currentresponse
 //build 5 day query
 //dump text into current div
@@ -14,6 +16,7 @@ $("#searchBtn").on("click", function (event) {
     city = $("#city-text").val().trim();
     var currentQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
     var fiveQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
+    var uvQueryURL = "";
     event.preventDefault();
     console.log(city);
     console.log(currentQueryURL);
@@ -26,11 +29,23 @@ $("#searchBtn").on("click", function (event) {
         let temp = 1.8 * (response.main.temp - 273) + 32;
         $("#current-city").text(response.name);
         $("#current-date").text("Today is " + m.format("dddd, MMMM Do YYYY"))
-        $("#current-temperature").text("Temperature: " + temp.toFixed(1) + " F");
-        $("#current-humidity").text("Humidity: " + response.main.humidity + "%");
-        $("#current-windspeed").text("Wind Speed: " + response.wind.speed + "MPH");
-        // UV index URL with lat and lon from city
+        $("#current-temperature").text("Current Temperature: " + temp.toFixed(1) + " F");
+        $("#current-humidity").text("Current Humidity: " + response.main.humidity + "%");
+        $("#current-windspeed").text("Current Wind Speed: " + response.wind.speed + "MPH");
+        lat = response.coord.lat;
+        lon = response.coord.lon;
+        uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
+        console.log(uvQueryURL);
+        $.ajax({
+            url: uvQueryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            $("#current-uv-index").text("Current UV Index: " + response.value);
+        });
     });
+
+
 
     $.ajax({
         url: fiveQueryURL,
