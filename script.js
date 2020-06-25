@@ -85,23 +85,33 @@ function search(city) {
         console.log(fiveQueryURL);
         console.log(response);
         let dayOne = response.list[4];
+        let dayOneIcon = dayOne.weather[0].icon
         let dayTwo = response.list[12];
+        let dayTwoIcon = dayTwo.weather[0].icon
         let dayThree = response.list[20];
+        let dayThreeIcon = dayThree.weather[0].icon
         let dayFour = response.list[28];
+        let dayFourIcon = dayFour.weather[0].icon
         let dayFive = response.list[36];
+        let dayFiveIcon = dayFive.weather[0].icon
         $("#day1").text(m.add(1, 'd').format("ddd"));
+        $("#day1Pic").attr("src", "http://openweathermap.org/img/wn/" + dayOneIcon + "@2x.png");
         $("#day1Temp").text("Temp: " + (1.8 * (dayOne.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day1Humidity").text("Humidity: " + dayOne.main.humidity + "%");
         $("#day2").text(m.add(1, 'd').format("ddd"));
+        $("#day2Pic").attr("src", "http://openweathermap.org/img/wn/" + dayTwoIcon + "@2x.png");
         $("#day2Temp").text("Temp: " + (1.8 * (dayTwo.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day2Humidity").text("Humidity: " + dayTwo.main.humidity + "%");
         $("#day3").text(m.add(1, 'd').format("ddd"));
+        $("#day3Pic").attr("src", "http://openweathermap.org/img/wn/" + dayThreeIcon + "@2x.png");
         $("#day3Temp").text("Temp: " + (1.8 * (dayThree.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day3Humidity").text("Humidity: " + dayThree.main.humidity + "%");
         $("#day4").text(m.add(1, 'd').format("ddd"));
+        $("#day4Pic").attr("src", "http://openweathermap.org/img/wn/" + dayFourIcon + "@2x.png");
         $("#day4Temp").text("Temp: " + (1.8 * (dayFour.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day4Humidity").text("Humidity: " + dayFour.main.humidity + "%");
         $("#day5").text(m.add(1, 'd').format("ddd"));
+        $("#day5Pic").attr("src", "http://openweathermap.org/img/wn/" + dayFiveIcon + "@2x.png");
         $("#day5Temp").text("Temp: " + (1.8 * (dayFive.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day5Humidity").text("Humidity: " + dayFive.main.humidity + "%");
         m.subtract(5, 'd');
