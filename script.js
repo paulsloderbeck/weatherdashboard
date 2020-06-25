@@ -57,6 +57,22 @@ function search(city) {
         }).then(function (response) {
             console.log(response);
             $("#current-uv-index").text("Current UV Index: " + response.value);
+            $("#current-uv-index").css("color", "white");
+            if (response.value <= 2.99) {
+                $("#current-uv-index").css("background-color", "green")
+            }
+            if (response.value >= 3.0 && response.value <= 5.99) {
+                $("#current-uv-index").css("background-color", "yellow")
+            }
+            if (response.value >= 6.0 && response.value <= 7.99) {
+                $("#current-uv-index").css("background-color", "orange")
+            }
+            if (response.value >= 8.0 && response.value <= 10.99) {
+                $("#current-uv-index").css("background-color", "red")
+            }
+            if (response.value >= 11.0) {
+                $("#current-uv-index").css("background-color", "purple")
+            }
         });
     });
 
@@ -88,9 +104,7 @@ function search(city) {
         $("#day5").text(m.add(1, 'd').format("ddd"));
         $("#day5Temp").text("Temp: " + (1.8 * (dayFive.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day5Humidity").text("Humidity: " + dayFive.main.humidity + "%");
-        console.log(m)
         m.subtract(5, 'd');
-        console.log(m)
     });
 }
 
