@@ -12,13 +12,57 @@ let lon = ""
 //append to cities list
 //clear button- reset text fields, subtract 5 days from moment
 
-$("#searchBtn").on("click", function (event) {
+function getHistory() {
+    let storedHistory = JSON.parse(localStorage.getItem("cities"))
+    if (storedHistory !== null) {
+        cities = storedHistory
+    }
+};
+
+function storeHistory() {
+    localStorage.setItem("cities", JSON.stringify(cities));
+};
+
+function renderHistory() {
+    for (i = 0; i < cities.length; i++) {
+        var newCity = $("<li>");
+        newCity.attr("data-city", cities[i]);
+        newCity.text(cities[i]);
+        newCity.addClass("list-group-item");
+        newCity.click(function () {
+            city = newCity.text;
+            search(city);
+        });
+        $("#city-history-here").append(newCity);
+    }
+};
+
+getHistory();
+renderHistory();
+console.log(localStorage);
+console.log(m);
+
+
+$("#searchBtn").on("click", function () {
     city = $("#city-text").val().trim();
+    search(city);
+});
+
+function search(city) {
+    //city = $("#city-text").val().trim();
     var currentQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
     var fiveQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
     var uvQueryURL = "";
-    event.preventDefault();
     console.log(city);
+    cities.push(city);
+    console.log(cities);
+    var lastCity = $("<li>");
+    lastCity.attr("data-city", city);
+    lastCity.text(city);
+    lastCity.addClass("list-group-item");
+    $("#city-history-here").append(lastCity);
+    storeHistory();
+
     console.log(currentQueryURL);
     $.ajax({
         url: currentQueryURL,
@@ -73,6 +117,8 @@ $("#searchBtn").on("click", function (event) {
         $("#day5").text(m.add(1, 'd').format("ddd"));
         $("#day5Temp").text("Temp: " + (1.8 * (dayFive.main.temp - 273) + 32).toFixed(1) + "F");
         $("#day5Humidity").text("Humidity: " + dayFive.main.humidity + "%");
+        console.log(m)
+        m.subtract(5, 'd');
+        console.log(m)
     });
-
-});
+}
