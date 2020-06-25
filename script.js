@@ -4,18 +4,15 @@ let cities = [];
 let m = moment();
 let lat = ""
 let lon = ""
-// build UV index queryURL with coord from currentresponse
-//build 5 day query
-//dump text into current div
-//put text into buttons for 5 day forecast
-// add city to cities array
-//append to cities list
-//clear button- reset text fields, subtract 5 days from moment
+
 
 function getHistory() {
     let storedHistory = JSON.parse(localStorage.getItem("cities"))
     if (storedHistory !== null) {
         cities = storedHistory
+        console.log(cities);
+        city = cities[cities.length - 1];
+        search(city);
     }
 };
 
@@ -23,33 +20,7 @@ function storeHistory() {
     localStorage.setItem("cities", JSON.stringify(cities));
 };
 
-function renderHistory() {
-    for (i = 0; i < cities.length; i++) {
-        var newCity = $("<li>");
-        newCity.attr("data-city", cities[i]);
-        newCity.text(cities[i]);
-        newCity.addClass("list-group-item");
-        newCity.click(function () {
-            city = newCity.text;
-            search(city);
-        });
-        $("#city-history-here").append(newCity);
-    }
-};
-
-getHistory();
-renderHistory();
-console.log(localStorage);
-console.log(m);
-
-
-$("#searchBtn").on("click", function () {
-    city = $("#city-text").val().trim();
-    search(city);
-});
-
 function search(city) {
-    //city = $("#city-text").val().trim();
     var currentQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
     var fiveQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
     var uvQueryURL = "";
@@ -122,3 +93,29 @@ function search(city) {
         console.log(m)
     });
 }
+
+function renderHistory() {
+    for (i = 0; i < cities.length; i++) {
+        var newCity = $("<li>");
+        newCity.attr("data-city", cities[i]);
+        newCity.text(cities[i]);
+        newCity.addClass("list-group-item");
+        $("#city-history-here").append(newCity);
+    }
+};
+
+getHistory();
+renderHistory();
+console.log(localStorage);
+console.log(m);
+
+$(".list-group-item").on("click", function () {
+    city = $(this).attr("data-city");
+    search(city);
+})
+
+$("#searchBtn").on("click", function () {
+    city = $("#city-text").val().trim();
+    search(city);
+});
+
