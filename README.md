@@ -10,4 +10,4 @@ The dashboard stores the cities searched in Local Storage and renders a history 
 
 Check it out at https://paulsloderbeck.github.io/weatherdashboard/
 
-![Screenshot] (https://github.com/paulsloderbeck/weatherdashboard/blob/master/screenshot.png)
+![ScreenShot](https://github.com/paulsloderbeck/weatherdashboard/blob/master/screenshot.png)
