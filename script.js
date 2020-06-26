@@ -31,6 +31,10 @@ function search(city) {
     lastCity.attr("data-city", city);
     lastCity.text(city);
     lastCity.addClass("list-group-item");
+    lastCity.on("click", function () {
+        city = $(this).attr("data-city");
+        search(city);
+    });
     $("#city-history-here").append(lastCity);
     storeHistory();
 
